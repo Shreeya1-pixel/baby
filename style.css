@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    /* iPhone optimization */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+    position: relative;
+    cursor: none;
+    /* iPhone viewport fixes */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
+/* Subtle animated background */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(236, 72, 153, 0.02) 0%, transparent 50%);
+    animation: backgroundShift 20s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.celebration-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: -webkit-fill-available;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* iPhone safe area support */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#animationCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.main-message {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: messageReveal 2s ease-out 0.5s forwards;
+}
+
+.celebration-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.8),
+        0 0 60px rgba(255, 255, 255, 0.4),
+        0 0 90px rgba(255, 255, 255, 0.2),
+        0 4px 20px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+}
+
+.celebration-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 300;
+    color: #f1f5f9;
+    text-shadow: 
+        0 0 20px rgba(241, 245, 249, 0.6),
+        0 0 40px rgba(241, 245, 249, 0.3),
+        0 2px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+}
+
+.signature {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    z-index: 15;
+    opacity: 0;
+    animation: signatureReveal 1s ease-out 2s forwards;
+}
+
+.initials {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Particle styles */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    font-size: 1.5rem;
+    z-index: 6;
+}
+
+.chess-particle {
+    filter: drop-shadow(0 0 15px #fbbf24) drop-shadow(0 0 30px #f59e0b);
+    animation: chessFloat 4s ease-out forwards;
+}
+
+.code-particle {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #06b6d4;
+    text-shadow: 
+        0 0 10px #06b6d4,
+        0 0 20px #0891b2,
+        0 0 30px #0e7490;
+    animation: codeFloat 6s ease-out forwards;
+}
+
+.heart-particle {
+    color: #ef4444;
+    filter: drop-shadow(0 0 10px #ef4444) drop-shadow(0 0 20px #dc2626);
+    animation: heartFloat 8s ease-out forwards;
+}
+
+/* Animations */
+@keyframes messageReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes signatureReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+    }
+}
+
+@keyframes chessFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--random-x, 200px), var(--random-y, -200px)) scale(0.3) rotate(720deg);
+    }
+}
+
+@keyframes codeFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--random-x, 150px), var(--random-y, -150px)) scale(0.5);
+    }
+}
+
+@keyframes heartFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--random-x, 100px), var(--random-y, -300px)) scale(0.2);
+    }
+}
+
+/* Subtle floating animation for message after initial reveal */
+.main-message.revealed {
+    animation: gentleFloat 4s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-8px) scale(1.02); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .celebration-title {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+        margin-bottom: 0.8rem;
+    }
+    
+    .celebration-subtitle {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+    
+    .particle {
+        font-size: 1.2rem;
+    }
+    
+    .code-particle {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .celebration-title {
+        font-size: clamp(2rem, 12vw, 3rem);
+        margin-bottom: 0.6rem;
+    }
+    
+    .celebration-subtitle {
+        font-size: clamp(0.9rem, 5vw, 1.2rem);
+    }
+    
+    .signature {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .initials {
+        font-size: clamp(1.2rem, 5vw, 2rem);
+    }
+}
+
+/* iPhone and mobile optimizations */
+@media (max-width: 480px) and (orientation: portrait) {
+    .celebration-container {
+        padding: 20px 15px;
+    }
+    
+    .signature {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .initials {
+        font-size: clamp(1rem, 6vw, 1.8rem);
+    }
+}
+
+/* iPhone landscape */
+@media (max-width: 896px) and (orientation: landscape) {
+    .celebration-title {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .celebration-subtitle {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+    }
+    
+    .signature {
+        bottom: 15px;
+        right: 20px;
+    }
+    
+    .initials {
+        font-size: clamp(1.2rem, 3vw, 2rem);
+    }
+}
+
+/* iPhone X and newer safe area */
+@supports (padding: max(0px)) {
+    .celebration-container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .celebration-title {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .initials {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .celebration-container {
+        height: 100vh;
+        height: -webkit-fill-available;
+    }
+}
